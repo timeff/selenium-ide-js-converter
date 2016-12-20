@@ -30,6 +30,10 @@ function elementExtractor(tag,doc){
 function elementExtractorOrder(tag,doc){
 	let docArray = elementExtractor(tag,doc);
 	
+	// Error handle---------------------------
+	if(docArray.length!==3){
+		throw `ERROR: Can't create order object (number of <td> element not equal 3)`;
+	}
 
 	let orderObject={
 		order:docArray[0],
@@ -46,8 +50,15 @@ function getAllOrder(doc){
 	let allOrder = [];
 
 	let tables = elementExtractor('tbody',doc);
+
+	// Error handle---------------------------
+	if (tables.length!==1) throw `ERROR: only one <tbody> element accept`;
+
 	tables.forEach(table=>{
 		tableEach = elementExtractor('tr',table);
+		// Error handle---------------------------
+		if (tableEach.length===0) throw `ERROR: need at least one command (<tr> element)`;
+
 			tableEach.forEach(trs=>{
 				trsEach=elementExtractorOrder('td',trs)
 				allOrder.push(trsEach);
@@ -92,6 +103,9 @@ function interpretOrder(order){
 
 		'assertTitle':`driver.getTitle().then(title=>title.should.equal({-selector}));`
 	}
+
+
+	if(!mappingOrder[order]) throw `ERROR: order type: '${order}' is not supported`;
 
 	return mappingOrder[order];
 }
@@ -144,7 +158,7 @@ function interpretActions(orderObj){
 	return action
 }
 
-function insertActions(testHtml){
+function insertActions(fileTemplate,testHtml){
 	allOrders=getAllOrder(testHtml);
 	let actions='';
 
@@ -153,11 +167,13 @@ function insertActions(testHtml){
 		actions+=textOrder;
 	})
 
+	if (fileTemplate.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-action-}' in jsTemplate.js file for order injection`;
+
 	return fileTemplate.replace('{-actions-}',actions);
 }
 
 function writeFile(dirnameJs,filename,testHtml){
-	fs.writeFile(dirnameJs+filename+'.js',insertActions(testHtml),err=>{
+	fs.writeFile(dirnameJs+filename+'.js',insertActions(fileTemplate,testHtml),err=>{
 		if (err) throw err;
 		console.log('Created '+filename+'.js already');
 	})

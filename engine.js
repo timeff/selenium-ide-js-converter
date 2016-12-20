@@ -94,14 +94,15 @@ function interpretOrder(order){
 		'click':`${findElementOrder}.click();`,
 		'clickAndWait':`${findElementOrder}.click();`,
 
-		'waitForElementPresent':`driver.wait(until.elementIsVisible(${findElementOrder},${waitTime}));`,
+		'waitForElementPresent':`driver.wait(until.elementLocated({-selector-},${waitTime});`,
 		'waitForTitle':`driver.wait(until.titleIs({-selector-}),${waitTime}));`,
 
 		'type':`${findElementOrder}.sendKeys('{-mis-}');`,
+		'select':`${findElementOrder}.sendKeys('{-mis-}');`,
 
 		'assertText':`${findElementOrder}.getText().then(text=>text.should.equal('{-mis-}'));`,
 
-		'assertTitle':`driver.getTitle().then(title=>title.should.equal({-selector}));`
+		'assertTitle':`driver.getTitle().then(title=>title.should.equal('{-selector-}'));`
 	}
 
 
@@ -130,6 +131,11 @@ function interpretSelector(selector){
 		startPos=0;
 	}
 
+	if(selector.indexOf('xpath=')!==-1){
+		template='By.xpath("{-body-}")';
+		startPos=6;
+	}
+
 	if(selector.indexOf('link=')!==-1){
 		template='By.linkText("{-body-}")';
 		startPos=5;
@@ -139,12 +145,21 @@ function interpretSelector(selector){
 		template='By.name("{-body-}")';
 		startPos=5;
 	}
-
+	
+	
 	if(template){
 		return template.replace('{-body-}',selector.slice(startPos));
 	}
 
 	return selector;
+}
+
+function interpretMis(mis){
+	if(mis.indexOf('label=')!==-1){
+		return mis.slice(6);
+	}
+
+	return mis;
 }
 
 function interpretActions(orderObj){
@@ -153,7 +168,7 @@ function interpretActions(orderObj){
 
 	action=interpretOrder(order);
 	action=action.replace('{-selector-}',interpretSelector(selector));
-	action=action.replace('{-mis-}',mis);
+	action=action.replace('{-mis-}',interpretMis(mis));
 
 	return action
 }

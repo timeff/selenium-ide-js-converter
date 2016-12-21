@@ -94,7 +94,7 @@ function interpretOrder(order){
 		'click':`${findElementOrder}.click();`,
 		'clickAndWait':`${findElementOrder}.click();`,
 
-		'waitForElementPresent':`driver.wait(until.elementLocated({-selector-},${waitTime});`,
+		'waitForElementPresent':`driver.wait(until.elementLocated({-selector-},${waitTime}));`,
 		'waitForTitle':`driver.wait(until.titleIs({-selector-}),${waitTime}));`,
 
 		'type':`${findElementOrder}.sendKeys('{-mis-}');`,

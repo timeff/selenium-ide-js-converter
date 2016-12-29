@@ -98,6 +98,8 @@ function interpretOrder(order){
 		'waitForTitle':`driver.wait(until.titleIs({-selector-})),${waitTime});`,
 
 		'type':`${findElementOrder}.sendKeys('{-mis-}');`,
+		'typeAndWait':`${findElementOrder}.sendKeys('{-mis-}');`,
+		
 		'select':`${findElementOrder}.sendKeys('{-mis-}');`,
 
 		'assertText':`${findElementOrder}.getText().then(text=>text.should.equal('{-mis-}'));`,

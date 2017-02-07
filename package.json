@@ -8,9 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://timeff@bitbucket.org/finnomena/selenium-ide-js-converter.git"
+    "url": "git+https://github.com/timeff/selenium-ide-js-converter.git"
   },
   "author": "TiMeFF",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/finnomena/selenium-ide-js-converter#readme"
+  "homepage": "https://github.com/timeff/selenium-ide-js-converter"
 }

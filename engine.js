@@ -4,7 +4,7 @@ const fs = require('fs');
 // Load Configs, Template
 const config=require('./config'),
 fileTemplate=require('./jsTemplate'),
-{waitTime,configLocation}=config;
+{waitTime}=config;
 
 
 

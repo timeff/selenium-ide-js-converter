@@ -1,3 +1,5 @@
+module.exports = (htmlPath,jsPath)=>{
+
 // Load Dependencies
 const fs = require('fs');
 
@@ -215,4 +217,6 @@ function init(dirnameHtml,dirnameJs){
 	readFiles(dirnameHtml,dirnameJs,writeFile);
 }
 
-init('./html/','./js/');
+init(`./${htmlPath}/`,`./${jsPath}/`);
+
+}

@@ -12,5 +12,11 @@
   },
   "author": "TiMeFF",
   "license": "MIT",
-  "homepage": "https://github.com/timeff/selenium-ide-js-converter"
+  "homepage": "https://github.com/timeff/selenium-ide-js-converter",
+  "keywords": [
+    "selenium",
+    "converter",
+    "javascript",
+    "ide"
+  ]
 }

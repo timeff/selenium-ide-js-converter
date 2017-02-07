@@ -1,6 +1,6 @@
 {
   "name": "selenium-ide-js-converter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple JS converter for selenium ide html file",
   "main": "engine.js",
   "scripts": {

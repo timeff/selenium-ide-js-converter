@@ -3,6 +3,7 @@ Converter for html file that is generated from Selenium IDE.
 
 
 ####How to use:
+- Go to node_modules/selenium-ide-js-converter
 - Put html files in 'html' folder
 - Modify jsTemplate.js to match your requirement
 

@@ -1,13 +1,15 @@
-module.exports = (htmlPath,jsPath)=>{
+module.exports = (htmlPath,jsPath,templateVar,baseUrlVar)=>{
 
 // Load Dependencies
 const fs = require('fs');
 
 // Load Configs, Template
 const config=require('./config'),
-fileTemplate=require('./jsTemplate'),
 {waitTime}=config;
 
+// Shared Variables
+let template = '',
+baseUrl = '';
 
 
 function elementExtractor(tag,doc){
@@ -92,7 +94,7 @@ function interpretOrder(order){
 	// use {-selector-},{-mis-}
 	let findElementOrder=`driver.findElement({-selector-})`;
 	let mappingOrder={
-		'open':`driver.get(baseUrl+"{-selector-}");`,
+		'open':`driver.get("${baseUrl}"+"{-selector-}");`,
 		'click':`${findElementOrder}.click();`,
 		'clickAndWait':`${findElementOrder}.click();`,
 
@@ -177,7 +179,7 @@ function interpretActions(orderObj){
 	return action
 }
 
-function insertActions(fileTemplate,testHtml){
+function insertActions(testHtml){
 	allOrders=getAllOrder(testHtml);
 	let actions='';
 
@@ -186,13 +188,13 @@ function insertActions(fileTemplate,testHtml){
 		actions+=textOrder;
 	})
 
-	if (fileTemplate.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-action-}' in jsTemplate.js file for order injection`;
+	if (template.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-action-}' in template argument for order injection`;
 
-	return fileTemplate.replace('{-actions-}',actions);
+	return template.replace('{-actions-}',actions);
 }
 
 function writeFile(dirnameJs,filename,testHtml){
-	fs.writeFile(dirnameJs+filename+'.js',insertActions(fileTemplate,testHtml),err=>{
+	fs.writeFile(dirnameJs+filename+'.js',insertActions(testHtml),err=>{
 		if (err) throw err;
 		console.log('Created '+filename+'.js already');
 	})
@@ -213,10 +215,13 @@ function readFiles(dirnameHtml,dirnameJs,onFileContent) {
 
 
 // Init
-function init(dirnameHtml,dirnameJs){
+function init(dirnameHtml,dirnameJs,templateVar,baseUrlVar){
+	
+	template = templateVar;
+	baseUrl = baseUrlVar;
 	readFiles(dirnameHtml,dirnameJs,writeFile);
 }
 
-init(`./${htmlPath}/`,`./${jsPath}/`);
+init(`./${htmlPath}/`,`./${jsPath}/`,templateVar,baseUrlVar);
 
 }

@@ -1,4 +1,3 @@
 module.exports={
-    waitTime:10000,
-	configLocation:'../../configs/config'
+    waitTime:10000
 }

@@ -91,6 +91,9 @@ function convertXhtml(text){
 
 
 function interpretOrder(order){
+	// Check baseUrl
+	if (baseUrl.length===0) throw `ERROR: You should indicate base url`;
+
 	// use {-selector-},{-mis-}
 	let findElementOrder=`driver.findElement({-selector-})`;
 	let mappingOrder={
@@ -188,7 +191,7 @@ function insertActions(testHtml){
 		actions+=textOrder;
 	})
 
-	if (template.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-action-}' in template argument for order injection`;
+	if (template.indexOf('{-actions-}') === -1) throw `ERROR: there should be '{-actions-}' in template argument for order injection`;
 
 	return template.replace('{-actions-}',actions);
 }

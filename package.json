@@ -1,5 +1,5 @@
 {
-  "name": "selenium-ide-js-converter",
+  "name": "@kvnjng/selenium-ide-js-converter",
   "version": "1.0.10",
   "description": "Simple JavaScript converter for selenium ide html file",
   "main": "engine.js",
@@ -11,11 +11,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timeff/selenium-ide-js-converter.git"
+    "url": "git+https://github.com/kvnjng/selenium-ide-js-converter.git"
   },
-  "author": "TiMeFF",
+  "author": "kvnjng",
   "license": "MIT",
-  "homepage": "https://github.com/timeff/selenium-ide-js-converter",
+  "homepage": "https://github.com/kvnjng/selenium-ide-js-converter",
   "keywords": [
     "selenium",
     "converter",

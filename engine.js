@@ -5,8 +5,7 @@ const fs = require('fs');
 
 // Load Configs, Template
 const config=require('./config'),
-{waitTime}=config;
-
+{waitTime, pauseTime}=config;
 // Shared Variables
 let template = '',
 baseUrl = '';
@@ -17,7 +16,7 @@ function elementExtractor(tag,doc){
 	let stopTag = `</${tag}>`;
 	let tagLen = tag.length;
 	let elem = [];
-	
+
 
 	while(doc.indexOf(startTag)!==-1){
 		let startPos = doc.indexOf(startTag)+tagLen+2;
@@ -33,7 +32,7 @@ function elementExtractor(tag,doc){
 
 function elementExtractorOrder(tag,doc){
 	let docArray = elementExtractor(tag,doc);
-	
+
 	// Error handle---------------------------
 	if(docArray.length!==3){
 		throw `ERROR: Can't create order object (number of <td> element not equal 3)`;
@@ -106,12 +105,20 @@ function interpretOrder(order){
 
 		'type':`${findElementOrder}.sendKeys('{-mis-}');`,
 		'typeAndWait':`${findElementOrder}.sendKeys('{-mis-}');`,
-		
+
 		'select':`${findElementOrder}.sendKeys('{-mis-}');`,
 
-		'assertText':`${findElementOrder}.getText().then(text=>text.should.equal('{-mis-}'));`,
+		'assertText':`${findElementOrder}.getText().then(text=> {
+			assert(text == '{-mis-}');
+			done();
+		});`,
 
-		'assertTitle':`driver.getTitle().then(title=>title.should.equal('{-selector-}'));`
+		'assertTitle':`driver.getTitle().then(title=> {
+			assert(title == '{-selector-}');
+			done();
+		});`,
+
+		'pause':`driver.sleep(${pauseTime});`
 	}
 
 
@@ -154,8 +161,8 @@ function interpretSelector(selector){
 		template='By.name("{-body-}")';
 		startPos=5;
 	}
-	
-	
+
+
 	if(template){
 		return template.replace('{-body-}',selector.slice(startPos));
 	}
@@ -219,7 +226,7 @@ function readFiles(dirnameHtml,dirnameJs,onFileContent) {
 
 // Init
 function init(dirnameHtml,dirnameJs,templateVar,baseUrlVar){
-	
+
 	template = templateVar;
 	baseUrl = baseUrlVar;
 	readFiles(dirnameHtml,dirnameJs,writeFile);
